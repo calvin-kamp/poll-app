@@ -1,1 +1,20 @@
-<p>checkbox works!</p>
+<div class="form-control form-control--checkbox">
+    <label class="form-control__label">
+        <input 
+            class="form-control__input"
+            [name]="name()"
+            type="checkbox"
+            [formControl]="control()"
+        />
+
+        <span class="form-control__label-text">
+            {{ label() }}
+        </span>
+    </label>
+
+    @if (errorMessage()) {
+        <small class="form-control__error-message">
+            {{ errorMessage() }}
+        </small>
+    }
+</div>
