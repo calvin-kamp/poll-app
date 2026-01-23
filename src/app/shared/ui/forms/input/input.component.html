@@ -1,0 +1,17 @@
+<div class="form-control form-control--text">
+    <label class="form-control__label">
+        <input [type]="type()" [placeholder]="placeholder()" class="form-control__input">
+
+        @if (label()) {
+            <span class="form-control__label-text">
+                {{ label() }}
+            </span>
+        }
+    </label>
+
+    @if (errorMessage()) {
+        <small class="form-control__error-message">
+            {{ errorMessage() }}
+        </small>
+    }
+</div>
