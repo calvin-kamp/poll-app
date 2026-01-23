@@ -1,12 +1,18 @@
-<div class="form-control form-control--text">
+<div class="form-control form-control--text" [class.form-control--label-floated]="isLabelFloated()">
     <label class="form-control__label">
-        <input [type]="type()" [placeholder]="placeholder()" class="form-control__input">
+        <input 
+            class="form-control__input" 
+            [name]="name()" 
+            [type]="type()" 
+            [formControl]="control()"
+            (focusin)="onFocusIn()" 
+            (focusout)="onFocusOut()"
+            autocomplete="off"
+        />
 
-        @if (label()) {
-            <span class="form-control__label-text">
-                {{ label() }}
-            </span>
-        }
+        <span class="form-control__label-text">
+            {{ label() }}
+        </span>
     </label>
 
     @if (errorMessage()) {
