@@ -1,1 +1,21 @@
-<p>textarea works!</p>
+<div class="form-control form-control--textarea" [class.form-control--label-floated]="isLabelFloated()">
+    <label class="form-control__label">
+        <textarea 
+            class="form-control__input"
+            [name]="name()" 
+            [formControl]="control()"
+            (focusin)="onFocusIn()" 
+            (focusout)="onFocusOut()"
+        ></textarea>
+
+        <span class="form-control__label-text">
+            {{ label() }}
+        </span>
+    </label>
+
+    @if (errorMessage()) {
+        <small class="form-control__error-message">
+            {{ errorMessage() }}
+        </small>
+    }
+</div>
