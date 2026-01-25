@@ -4,20 +4,30 @@
             class="form-control__input" 
             [name]="name()" 
             [type]="type()" 
-            [formControl]="control()"
-            (focusin)="onFocusIn()" 
-            (focusout)="onFocusOut()"
-            autocomplete="off"
-        />
+            [disabled]="disabled" 
+            [value]="value" 
+            (input)="onInput(($any($event.target).value))" 
+            (focusin)="onFocusIn()"
+            (focusout)="onFocusOut()" 
+            [attr.aria-invalid]="(isReady() && isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="(isReady() && errorList.length) ? errorId : null" autocomplete="off" />
 
         <span class="form-control__label-text">
             {{ label() }}
         </span>
     </label>
 
-    @if (errorMessage()) {
-        <small class="form-control__error-message">
-            {{ errorMessage() }}
-        </small>
+    @if (errorList.length === 1) {
+        <p class="form-control__error-message" [id]="errorId" role="alert" aria-live="polite">
+            {{ errorList[0] }}
+        </p>
+    } @else if (errorList.length > 1) {
+        <ul class="form-control__error-list" [id]="errorId" role="alert" aria-live="polite">
+            @for (errorMessage of errorList; track $index) {
+                <li class="form-control__error-message">
+                    {{ errorMessage }}
+                </li>
+            }
+        </ul>
     }
 </div>
