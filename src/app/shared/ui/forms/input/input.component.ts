@@ -106,7 +106,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
         return !!this.ngControl?.control?.invalid;
     }
 
-    get showError(): boolean {
+    private get showError(): boolean {
         if (!this.isReady()) {
             return false;
         }
