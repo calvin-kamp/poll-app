@@ -52,7 +52,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     private valueSignal = signal<string>('');
     private disabledSignal = signal(false);
 
-    private isReadySignal = signal(false);
+    isReadySignal = signal(false);
 
     isLabelFloated = computed(() => this.isFocusedSignal() || this.valueSignal().trim().length > 0);
 

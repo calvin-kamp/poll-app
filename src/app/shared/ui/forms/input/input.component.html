@@ -9,8 +9,8 @@
             (input)="onInput(($any($event.target).value))" 
             (focusin)="onFocusIn()"
             (focusout)="onFocusOut()" 
-            [attr.aria-invalid]="(isReady() && isInvalid) ? 'true' : null"
-            [attr.aria-describedby]="(isReady() && errorList.length) ? errorId : null" autocomplete="off" />
+            [attr.aria-invalid]="(isReadySignal() && isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="(isReadySignal() && errorList.length) ? errorId : null" autocomplete="off" />
 
         <span class="form-control__label-text">
             {{ label() }}
