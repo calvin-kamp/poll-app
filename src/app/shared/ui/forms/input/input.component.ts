@@ -1,29 +1,8 @@
-import {
-    AfterViewInit,
-    Component,
-    Injector,
-    computed,
-    effect,
-    forwardRef,
-    inject,
-    input,
-    runInInjectionContext,
-    signal,
-} from '@angular/core';
-
-import {
-    AbstractControl,
-    ControlValueAccessor,
-    NG_VALUE_ACCESSOR,
-    NgControl,
-    ValidatorFn,
-    Validators,
-    ValidationErrors,
-} from '@angular/forms';
+import { AfterViewInit, Component, Injector, computed, effect, forwardRef, inject, input, runInInjectionContext, signal } from '@angular/core';
+import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, Validators, ValidationErrors } from '@angular/forms';
 
 @Component({
     selector: 'ui-input',
-    standalone: true,
     templateUrl: './input.component.html',
     styleUrl: './input.component.scss',
     providers: [
