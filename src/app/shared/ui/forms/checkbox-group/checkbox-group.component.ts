@@ -4,7 +4,6 @@ import { CHECKBOX_GROUP, CheckboxGroupApi } from './checkbox-group.token';
 
 @Component({
     selector: 'ui-checkbox-group',
-    standalone: true,
     templateUrl: './checkbox-group.component.html',
     styleUrl: './checkbox-group.component.scss',
     providers: [
