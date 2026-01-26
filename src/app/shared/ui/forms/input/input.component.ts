@@ -52,7 +52,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     private valueSignal = signal<string>('');
     private disabledSignal = signal(false);
 
-    isReady = signal(false);
+    private isReadySignal = signal(false);
 
     isLabelFloated = computed(() => this.isFocusedSignal() || this.valueSignal().trim().length > 0);
 
@@ -90,7 +90,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
         });
 
         queueMicrotask(() => {
-            this.isReady.set(true);
+            this.isReadySignal.set(true);
         });
     }
 
@@ -99,7 +99,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     }
 
     get isInvalid(): boolean {
-        if (!this.isReady()) {
+        if (!this.isReadySignal()) {
             return false;
         }
 
@@ -107,7 +107,7 @@ export class InputComponent implements ControlValueAccessor, AfterViewInit {
     }
 
     private get showError(): boolean {
-        if (!this.isReady()) {
+        if (!this.isReadySignal()) {
             return false;
         }
 
