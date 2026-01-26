@@ -1,21 +1,19 @@
 <div class="form-control form-control--radio">
     <label class="form-control__label">
-        <input 
+        <input
             class="form-control__input"
-            [name]="name()"
             type="radio"
-            [formControl]="control()"
-            [value]="value()"
+            [name]="resolvedName"
+            [checked]="checked"
+            [disabled]="disabled"
+            (change)="onSelect()"
+            (blur)="onBlur()"
+            [attr.aria-invalid]="(isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="describedById"
         />
 
         <span class="form-control__label-text">
             {{ label() }}
         </span>
     </label>
-
-    @if (errorMessage()) {
-        <small class="form-control__error-message">
-            {{ errorMessage() }}
-        </small>
-    }
 </div>
