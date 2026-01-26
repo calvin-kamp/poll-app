@@ -18,8 +18,6 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
     label = input.required<string>();
     name = input.required<string>();
 
-    rows = input<number>(4);
-
     required = input<boolean>(false);
     minLength = input<number | null>(null);
     maxLength = input<number | null>(null);
