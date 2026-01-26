@@ -1,10 +1,15 @@
 <div class="form-control form-control--checkbox">
     <label class="form-control__label">
-        <input 
+        <input
             class="form-control__input"
-            [name]="name()"
             type="checkbox"
-            [formControl]="control()"
+            [name]="resolvedName"
+            [checked]="checked"
+            [disabled]="disabled"
+            (change)="onToggle(($any($event.target).checked))"
+            (blur)="onBlur()"
+            [attr.aria-invalid]="(isReadySignal() && isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="(isReadySignal() && describedById) ? describedById : null"
         />
 
         <span class="form-control__label-text">
@@ -12,9 +17,9 @@
         </span>
     </label>
 
-    @if (errorMessage()) {
-        <small class="form-control__error-message">
-            {{ errorMessage() }}
-        </small>
+    @if (errorMessage) {
+        <p class="form-control__error-message" [id]="errorId" role="alert" aria-live="polite">
+            {{ errorMessage }}
+        </p>
     }
 </div>
