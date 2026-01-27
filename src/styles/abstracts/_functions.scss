@@ -1,0 +1,65 @@
+@use "tokens.layout" as *;
+@use "sass:math";
+@use "sass:meta";
+@use "sass:map";
+@use "sass:color";
+
+@function get-rem($px, $base: 16px) {
+    @return math.div($px, $base) * 1rem;
+}
+
+@function strip-unit($value) {
+    @if meta.type-of($value) != "number" {
+        @error "strip-unit() expects a number, got: #{meta.type-of($value)}";
+    }
+
+    @if math.is-unitless($value) {
+        @return $value;
+    }
+
+    @return math.div($value, ($value * 0 + 1));
+}
+
+@function rgb-channels($value) {
+    @if meta.type-of($value) != "color" {
+        @error "rgb-channels() expects a color, got: #{meta.type-of($value)}";
+    }
+
+    @return #{color.channel($value, "red", $space: rgb)} #{color.channel($value, "green", $space: rgb)} #{color.channel($value, "blue", $space: rgb)};
+}
+
+@function grid-size($size) {
+    @if $size == null or meta.type-of($size) !="number" or $size <=0 or $size >$grid-columns {
+        @error "Invalid size: "$size". It must be a number between 1 and #{$grid-columns}.";
+    }
+
+    @return math.percentage(math.div($size, $grid-columns));
+}
+
+@function breakpoint-value($size) {
+    @if meta.type-of($size)=="string" and map.has-key($breakpoints, $size) {
+        @return map.get($breakpoints, $size);
+    }
+
+    @if meta.type-of($size)=="number" {
+        @if math.is-unitless($size) {
+            @return $size * 1px;
+        }
+
+        @return $size;
+    }
+
+    @error "Unknown breakpoint `#{$size}`. Use a key from $breakpoints or a number (e.g. 768px).";
+}
+
+@function breakpoint-max($breakpoint) {
+    @if meta.type-of($breakpoint) !="number" {
+        @error "breakpoint-max() expects a number, got: #{meta.type-of($breakpoint)}";
+    }
+
+    @if math.unit($breakpoint)=="px" {
+        @return $breakpoint - 1px;
+    }
+
+    @return $breakpoint;
+}
