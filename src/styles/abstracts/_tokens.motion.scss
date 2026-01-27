@@ -1,0 +1,6 @@
+$transition-time-fast:      200ms !default;
+$transition-time-regular:   400ms !default;
+$transition-time-slow:      600ms !default;
+
+$transition-ease-standard:  cubic-bezier(0.2, 0, 0, 1) !default;
+$transition-ease-linear:    linear !default;
