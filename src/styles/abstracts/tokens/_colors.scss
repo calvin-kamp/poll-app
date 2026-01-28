@@ -7,7 +7,7 @@ $neutral-light: (
     200:            #d9d9d9,
     300:            #bababa,
     600:            #5f5f5f,
-    900:            #0f0f0f
+    900:            #000000
 );
 
 $brand-light: (
@@ -45,32 +45,32 @@ $palette-light: (
 );
 
 $semantic-light: (
-    primary:                map.get(map.get($palette-light, brand), primary),
-    secondary:              map.get(map.get($palette-light, brand), secondary),
-    tertiary:               map.get(map.get($palette-light, brand), tertiary),
+    white:                      map.get(map.get($palette-light, neutral), 0),
+    black:                      map.get(map.get($palette-light, neutral), 900),
 
-    ui-success:             map.get(map.get($palette-light, ui), success),
-    ui-info:                map.get(map.get($palette-light, ui), info),
-    ui-warning:             map.get(map.get($palette-light, ui), warning),
-    ui-error:               map.get(map.get($palette-light, ui), error),
+    primary:                    map.get(map.get($palette-light, brand), primary),
+    secondary:                  map.get(map.get($palette-light, brand), secondary),
+    tertiary:                   map.get(map.get($palette-light, brand), tertiary),
 
-    body-background:        map.get(map.get($palette-light, neutral), 0),
-    card-background:        map.get(map.get($palette-light, neutral), 50),
+    ui-success:                 map.get(map.get($palette-light, ui), success),
+    ui-info:                    map.get(map.get($palette-light, ui), info),
+    ui-warning:                 map.get(map.get($palette-light, ui), warning),
+    ui-error:                   map.get(map.get($palette-light, ui), error),
 
-    surface:                map.get(map.get($palette-light, neutral), 0),
-    surface-subtle:         map.get(map.get($palette-light, neutral), 50),
+    body-background:            map.get(map.get($palette-light, neutral), 0),
+    card-background:            map.get(map.get($palette-light, neutral), 50),
 
-    text:                   map.get(map.get($palette-light, typography), default),
-    text-muted:             map.get(map.get($palette-light, typography), muted),
-    text-highlight:         map.get(map.get($palette-light, typography), highlight),
-    link:                   map.get(map.get($palette-light, typography), link),
+    text:                       map.get(map.get($palette-light, typography), default),
+    text-muted:                 map.get(map.get($palette-light, typography), muted),
+    text-highlight:             map.get(map.get($palette-light, typography), highlight),
+    link:                       map.get(map.get($palette-light, typography), link),
 
-    border:                 map.get(map.get($palette-light, neutral), 200),
-    card-border:            map.get(map.get($palette-light, neutral), 100),
+    border:                     map.get(map.get($palette-light, neutral), 200),
+    card-border:                map.get(map.get($palette-light, neutral), 100),
 
-    focus-ring:             map.get(map.get($palette-light, brand), primary),
+    focus-ring:                 map.get(map.get($palette-light, brand), primary),
 
-    highlight-background:   map.get(map.get($palette-light, accent), highlight-50)
+    highlight-card-background:  map.get(map.get($palette-light, accent), highlight-50)
 );
 
 $colors: (
