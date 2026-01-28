@@ -1,70 +1,76 @@
 @use "sass:map";
 
+$neutral-light: (
+    0:              #ffffff,
+    50:             #f7f7f7,
+    100:            #ededed,
+    200:            #d9d9d9,
+    300:            #bababa,
+    600:            #5f5f5f,
+    900:            #0f0f0f
+);
+
+$brand-light: (
+    primary:        #ffb770,
+    secondary:      #ffcfa1,
+    tertiary:       #35273a
+);
+
+$ui-light: (
+    success:        #16a34a,
+    info:           #2563eb,
+    warning:        #d97706,
+    error:          #dc2626
+);
+
+$accent-light: (
+    highlight-50:   #faf5fe,
+    highlight-100:  #f4e9fb,
+    orange-washed:  #fee9d4
+);
+
+$typography-light: (
+    default:        map.get($brand-light, tertiary),
+    muted:          map.get($neutral-light, 600),
+    highlight:      map.get($brand-light, primary),
+    link:           map.get($brand-light, primary)
+);
+
 $palette-light: (
-    neutral: (
-        0:              #ffffff,
-        50:             #f7f7f7,
-        100:            #ededed,
-        200:            #d9d9d9,
-        300:            #bababa,
-        900:            #0f0f0f
-    ),
-
-    brand: (
-        primary:        #ffb770,
-        secondary:      #ffcfa1,
-        tertiary:       #35273a
-    ),
-
-    ui: (
-        success:        #16a34a,
-        info:           #2563eb,
-        warning:        #d97706,
-        error:          #dc2626
-    ),
-
-    accent: (
-        highlight-50:   #faf5fe,
-        highlight-100:  #f4e9fb,
-        orange-washed:  #fee9d4
-    )
+    neutral:        $neutral-light,
+    brand:          $brand-light,
+    ui:             $ui-light,
+    accent:         $accent-light,
+    typography:     $typography-light
 );
 
 $semantic-light: (
-    primary: map.get(map.get($palette-light, brand), primary),
-    secondary: map.get(map.get($palette-light, brand), secondary),
-    tertiary: map.get(map.get($palette-light, brand), tertiary),
+    primary:                map.get(map.get($palette-light, brand), primary),
+    secondary:              map.get(map.get($palette-light, brand), secondary),
+    tertiary:               map.get(map.get($palette-light, brand), tertiary),
 
-    ui-success: map.get(map.get($palette-light, ui), success),
-    ui-info: map.get(map.get($palette-light, ui), info),
-    ui-warning: map.get(map.get($palette-light, ui), warning),
-    ui-error: map.get(map.get($palette-light, ui), error),
+    ui-success:             map.get(map.get($palette-light, ui), success),
+    ui-info:                map.get(map.get($palette-light, ui), info),
+    ui-warning:             map.get(map.get($palette-light, ui), warning),
+    ui-error:               map.get(map.get($palette-light, ui), error),
 
-    surface: map.get(map.get($palette-light, neutral), 0),
-    surface-subtle: map.get(map.get($palette-light, neutral), 50),
-    focus-ring: map.get(map.get($palette-light, brand), primary),
+    body-background:        map.get(map.get($palette-light, neutral), 0),
+    card-background:        map.get(map.get($palette-light, neutral), 50),
 
-    bg: (
-        page: map.get(map.get($palette-light, neutral), 0),
-        card: map.get(map.get($palette-light, neutral), 200),
-        highlight: map.get(map.get($palette-light, accent), highlight-50)
-    ),
+    surface:                map.get(map.get($palette-light, neutral), 0),
+    surface-subtle:         map.get(map.get($palette-light, neutral), 50),
 
-    text: (
-        default: map.get(map.get($palette-light, brand), tertiary),
-        muted: map.get(map.get($palette-light, neutral), 300),
-        inverse: map.get(map.get($palette-light, neutral), 0)
-    ),
+    text:                   map.get(map.get($palette-light, typography), default),
+    text-muted:             map.get(map.get($palette-light, typography), muted),
+    text-highlight:         map.get(map.get($palette-light, typography), highlight),
+    link:                   map.get(map.get($palette-light, typography), link),
 
-    border: (
-        subtle: map.get(map.get($palette-light, neutral), 100),
-        default: map.get(map.get($palette-light, neutral), 300)
-    ),
+    border:                 map.get(map.get($palette-light, neutral), 200),
+    card-border:            map.get(map.get($palette-light, neutral), 100),
 
-    action: (
-        primary: map.get(map.get($palette-light, brand), primary),
-        secondary: map.get(map.get($palette-light, brand), secondary)
-    )
+    focus-ring:             map.get(map.get($palette-light, brand), primary),
+
+    highlight-background:   map.get(map.get($palette-light, accent), highlight-50)
 );
 
 $colors: (
