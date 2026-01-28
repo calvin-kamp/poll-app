@@ -1,4 +1,5 @@
-@use "tokens.layout" as *;
+@use "tokens/layout" as *;
+
 @use "sass:math";
 @use "sass:meta";
 @use "sass:map";
@@ -29,19 +30,19 @@
 }
 
 @function grid-size($size) {
-    @if $size == null or meta.type-of($size) !="number" or $size <=0 or $size >$grid-columns {
-        @error "Invalid size: "$size". It must be a number between 1 and #{$grid-columns}.";
+    @if $size == null or meta.type-of($size) != "number" or $size <= 0 or $size > $grid-columns {
+        @error "Invalid size: #{$size}. It must be a number between 1 and #{$grid-columns}.";
     }
 
     @return math.percentage(math.div($size, $grid-columns));
 }
 
 @function breakpoint-value($size) {
-    @if meta.type-of($size)=="string" and map.has-key($breakpoints, $size) {
+    @if meta.type-of($size) == "string" and map.has-key($breakpoints, $size) {
         @return map.get($breakpoints, $size);
     }
 
-    @if meta.type-of($size)=="number" {
+    @if meta.type-of($size) == "number" {
         @if math.is-unitless($size) {
             @return $size * 1px;
         }
@@ -53,11 +54,11 @@
 }
 
 @function breakpoint-max($breakpoint) {
-    @if meta.type-of($breakpoint) !="number" {
+    @if meta.type-of($breakpoint) != "number" {
         @error "breakpoint-max() expects a number, got: #{meta.type-of($breakpoint)}";
     }
 
-    @if math.unit($breakpoint)=="px" {
+    @if math.unit($breakpoint) == "px" {
         @return $breakpoint - 1px;
     }
 
