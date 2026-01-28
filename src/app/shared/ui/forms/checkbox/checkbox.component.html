@@ -1,0 +1,25 @@
+<div class="form-control form-control--checkbox">
+    <label class="form-control__label">
+        <input
+            class="form-control__input"
+            type="checkbox"
+            [name]="resolvedName"
+            [checked]="checked"
+            [disabled]="disabled"
+            (change)="onToggle(($any($event.target).checked))"
+            (blur)="onBlur()"
+            [attr.aria-invalid]="(isReadySignal() && isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="(isReadySignal() && describedById) ? describedById : null"
+        />
+
+        <span class="form-control__label-text">
+            {{ label() }}
+        </span>
+    </label>
+
+    @if (errorMessage) {
+        <p class="form-control__error-message" [id]="errorId" role="alert" aria-live="polite">
+            {{ errorMessage }}
+        </p>
+    }
+</div>

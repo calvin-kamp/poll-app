@@ -1,0 +1,69 @@
+@use "abstracts" as *;
+
+@include reduce-motion {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+$focus-targets: (
+    'a[href]',
+    'area[href]',
+    'summary',
+    '[tabindex]:not([tabindex="-1"])',
+    'button',
+    'input',
+    'select',
+    'textarea'
+);
+
+@supports selector(:focus-visible) {
+    :where(#{$focus-targets}) {
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            @include focus-ring;
+        }
+    }
+}
+
+@supports not selector(:focus-visible) {
+    :where(#{$focus-targets}) {
+        &:focus {
+            @include focus-ring;
+        }
+    }
+}
+
+.sr-only,
+.sr-only-focusable {
+    @include sr-only;
+}
+
+.sr-only-focusable:focus,
+.sr-only-focusable:focus-visible {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    height: auto;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    white-space: normal;
+    color: var(--color-text-default);
+    clip: auto;
+    overflow: visible;
+    z-index: $z-index-900;
+}
+
+:target {
+    scroll-margin-top: var(--scroll-margin-top, 6rem);
+}

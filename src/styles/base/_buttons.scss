@@ -1,0 +1,18 @@
+@use "abstracts" as *;
+
+$btn-controls: ":is(button, input[type='button'], input[type='submit'], input[type='reset'])";
+
+#{$btn-controls} {
+    appearance: none;
+    -webkit-appearance: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+#{$btn-controls} {
+    &:disabled,
+    &[aria-disabled="true"] {
+        cursor: not-allowed;
+    }
+}

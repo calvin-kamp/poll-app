@@ -1,0 +1,19 @@
+<div class="form-control form-control--radio">
+    <label class="form-control__label">
+        <input
+            class="form-control__input"
+            type="radio"
+            [name]="resolvedName"
+            [checked]="checked"
+            [disabled]="disabled"
+            (change)="onSelect()"
+            (blur)="onBlur()"
+            [attr.aria-invalid]="(isInvalid) ? 'true' : null"
+            [attr.aria-describedby]="describedById"
+        />
+
+        <span class="form-control__label-text">
+            {{ label() }}
+        </span>
+    </label>
+</div>

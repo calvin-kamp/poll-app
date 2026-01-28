@@ -1,0 +1,28 @@
+@use "../functions" as *;
+@use "sass:meta";
+
+@mixin css-vars($values, $prefix: null, $rgb: false) {
+    @if meta.type-of($values) !="map" {
+        @error "css-vars() expects a map, got: #{meta.type-of($values)}";
+    }
+
+    @each $key, $value in $values {
+        $name: "#{$key}";
+
+        @if $prefix !=null and $prefix !="" {
+            $name: "#{$prefix}-#{$key}";
+        }
+
+        @if meta.type-of($value)=="map" {
+            @include css-vars($value, $name, $rgb);
+        }
+
+        @else {
+            --#{$name}: #{$value};
+
+            @if $rgb ==true and meta.type-of($value)=="color" {
+                --#{$name}-rgb: #{rgb-channels($value)};
+            }
+        }
+    }
+}
