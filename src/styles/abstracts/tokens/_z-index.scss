@@ -1,0 +1,16 @@
+$z-index-100: 100 !default;
+$z-index-200: 200 !default;
+$z-index-300: 300 !default;
+$z-index-400: 400 !default;
+$z-index-500: 500 !default;
+$z-index-600: 600 !default;
+$z-index-700: 700 !default;
+$z-index-800: 800 !default;
+$z-index-900: 900 !default;
+
+$z-index-base:      $z-index-100 !default;
+$z-index-raised:    $z-index-200 !default;
+$z-index-sticky:    $z-index-500 !default;
+$z-index-overlay:   $z-index-700 !default;
+$z-index-modal:     $z-index-800 !default;
+$z-index-toast:     $z-index-900 !default;

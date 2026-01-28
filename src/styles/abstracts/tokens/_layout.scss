@@ -1,0 +1,39 @@
+@use "sass:math";
+
+$breakpoints: (
+    sm: 0px,
+    md: 768px,
+    lg: 1280px
+) !default;
+
+$grid-bps: (
+    md,
+    lg
+) !default;
+
+$grid-columns: 12 !default;
+$grid-offset-max: math.div($grid-columns, 2) !default;
+
+$grid-gap: (
+    sm: 16px,
+    md: 20px,
+    lg: 24px
+) !default;
+
+$grid-padding-x: (
+    sm: 8px,
+    md: 16px,
+    lg: 24px
+) !default;
+
+$grid-content-max-widths: (
+    sm: 560px,
+    md: 720px,
+    lg: 1024px
+) !default;
+
+$grid-breakout-content-max-widths: (
+    sm: 640px,
+    md: 960px,
+    lg: 1220px
+) !default;
