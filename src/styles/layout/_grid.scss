@@ -1,0 +1,63 @@
+@use "abstracts" as *;
+@use "sass:map";
+
+.grid-wrap {
+    display: grid;
+    grid-template-columns: repeat(#{$grid-columns}, minmax(0, 1fr));
+    gap: map.get($grid-gap, sm);
+    width: 100%;
+    max-width: map.get($grid-content-max-widths, sm) + (map.get($grid-padding-x, sm) * 2);
+    padding-inline: map.get($grid-padding-x, sm);
+    margin-inline: auto;
+
+    @each $bp in $grid-bps {
+        @include breakpoint($bp) {
+            padding-inline: map.get($grid-padding-x, $bp);
+            gap: map.get($grid-gap, $bp);
+            max-width: map.get($grid-content-max-widths, $bp) + (map.get($grid-padding-x, $bp) * 2);
+        }
+    }
+
+    &--breakout {
+        max-width: map.get($grid-breakout-content-max-widths, sm) + (map.get($grid-padding-x, sm) * 2);
+
+        @each $bp in $grid-bps {
+            @include breakpoint($bp) {
+                max-width: map.get($grid-breakout-content-max-widths, $bp) + (map.get($grid-padding-x, $bp) * 2);
+            }
+        }
+    }
+
+    > :where([class^="g-col-"], [class*=" g-col-"], [class^="g-col-start-"], [class*=" g-col-start-"]) {
+        min-width: 0;
+        grid-column: var(--col-start, auto) / span var(--col-span, #{$grid-columns});
+    }
+
+    @for $i from 1 through $grid-columns {
+        .g-col-#{$i} {
+            --col-span: #{$i};
+        }
+    }
+
+    @for $i from 1 through $grid-offset-max {
+        .g-col-start-#{$i} {
+            --col-start: #{$i + 1};
+        }
+    }
+
+    @each $bp in $grid-bps {
+        @include breakpoint($bp) {
+            @for $i from 1 through $grid-columns {
+                .g-col-#{$bp}-#{$i} {
+                    --col-span: #{$i};
+                }
+            }
+
+            @for $i from 1 through $grid-offset-max {
+                .g-col-start-#{$bp}-#{$i} {
+                    --col-start: #{$i + 1};
+                }
+            }
+        }
+    }
+}
