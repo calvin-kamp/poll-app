@@ -54,11 +54,11 @@ $focus-targets: (
     height: auto;
     padding: 0.75rem 1rem;
     margin: 0;
-    background-color: var(--color-surface);
+    background-color: var(--color-card-background);
     border: 1px solid var(--color-border);
     border-radius: 0.5rem;
     white-space: normal;
-    color: var(--color-text-default);
+    color: var(--color-text);
     clip: auto;
     overflow: visible;
     z-index: $z-index-900;
