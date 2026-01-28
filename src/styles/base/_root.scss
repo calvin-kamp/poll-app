@@ -3,9 +3,7 @@
 
 :root {
     color-scheme: light;
-}
 
-:root {
     @include css-vars(map.get(map.get($colors, light), semantic), $prefix: "color", $rgb: true);
     @include css-vars(map.get(map.get($colors, light), palette), $prefix: "palette", $rgb: true);
 }
