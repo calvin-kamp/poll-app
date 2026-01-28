@@ -1,26 +1,21 @@
+@use "abstracts" as *;
+
 .form-control {
-    --color-primary: #123123;
-    --color-ui-error: #FF0000;
     &__label {
         display: block;
         position: relative;
     }
 
-    &__input {
-    }
-
     &__label-text {
         display: block;
+        color: var(--color-text);
     }
-
-    &__error-list {}
 
     &__error-message {
         position: relative;
         padding-left: 24px;
         margin-top: 4px;
         color: var(--color-ui-error);
-        background-color: #000;
 
         &::before {
             display: inline-block;
@@ -29,10 +24,9 @@
             left: 0;
             width: 20px;
             height: 20px;
-            margin-right: 8px;
             border-radius: 50%;
             background-color: var(--color-ui-error);
-            color: #FFF;
+            color: #fff;
             font-size: 87.5%;
             font-weight: 900;
             text-align: center;
@@ -42,117 +36,92 @@
 
     &--radio,
     &--checkbox {
-        .form-control {
-            &__input {
-                position: absolute;
-                height: 100%;
-                z-index: -1;
+        .form-control__input {
+            appearance: none;
+            -webkit-appearance: none;
+            @include sr-only;
 
-                &:checked {
-                    +.form-control__label-text {
-                        &::after {
-                            opacity: 1;
-                        }
-                    }
-                }
+            &:checked+.form-control__label-text::after {
+                opacity: 1;
+            }
+        }
+
+        .form-control__label-text {
+            margin-left: 32px;
+            min-height: 24px;
+            cursor: pointer;
+
+            &::before,
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
             }
 
-            &__label-text {
-                margin-left: 32px;
-                min-height: 20px;
-                cursor: pointer;
+            &::before {
+                width: 24px;
+                height: 24px;
+                border: 2px solid var(--color-border);
+                background-color: var(--color-card-background);
+            }
 
-                &::before {
-                    top: 0;
-                    left: 0;
-                    width: 24px;
-                    height: 24px;
-                    border: 2px solid var(--color-primary);
-                }
-
-                &::after {
-                    background-color: var(--color-primary);
-                    opacity: 0;
-                }
-
-                &::before,
-                &::after {
-                    position: absolute;
-                    transition: inherit;
-                    content: "";
-                }
+            &::after {
+                width: 24px;
+                height: 24px;
+                background-color: var(--color-primary);
+                opacity: 0;
+                transition: opacity 140ms ease;
             }
         }
     }
 
     &--radio {
         .form-control__label-text {
+
             &::before,
             &::after {
                 border-radius: 50%;
             }
 
-            &::before {
-
-            }
-
             &::after {
-                top: 12px;
-                left: 12px;
-                transform: translate(-6px, -6px);
-                width: 12px;
-                height: 12px;
+                transform: scale(0.55);
             }
         }
     }
+
     &--checkbox {
         .form-control__label-text {
+
             &::before,
             &::after {
                 border-radius: 4px;
-            }
-
-            &::after {
-                top: 0;
-                left: 0;
-                width: 24px;
-                height: 24px;
-            }
-        }
-    }
-
-    &--textarea {
-        .form-control {
-            &__input {
-                height: 300px;
             }
         }
     }
 
     &--text,
     &--textarea {
-        .form-control {
-            &__input {
-                padding: 24px 16px 8px;
-            }
+        .form-control__input {
+            padding: 24px 16px 8px;
+        }
 
-            &__label-text {
-                position: absolute;
-                top: 29px;
-                left: 16px;
-                transform: translateY(-50%);
-                transition: all 0.4s ease;
-                pointer-events: none;
-            }
+        .form-control__label-text {
+            position: absolute;
+            top: 29px;
+            left: 16px;
+            transform: translateY(-50%);
+            transition: all 200ms ease;
+            pointer-events: none;
         }
     }
 
     &--label-floated {
         .form-control__label-text {
             top: 8px;
-            left: 16px;
             transform: translateY(0);
             font-size: 87.5%;
+            color: var(--color-text-muted);
         }
     }
 }
