@@ -1,0 +1,17 @@
+@use "../tokens/layout" as *;
+
+@mixin grid-utils($prefix: null) {
+    $p: if($prefix ==null, "", "#{$prefix}-");
+
+    @for $i from 1 through $grid-columns {
+        .g-col-#{$p}#{$i} {
+            --g-col-span: #{$i};
+        }
+    }
+
+    @for $i from 1 through $grid-offset-max {
+        .g-col-#{$p}offset-#{$i} {
+            --g-col-start: #{$i + 1};
+        }
+    }
+}
