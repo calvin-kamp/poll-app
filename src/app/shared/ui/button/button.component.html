@@ -1,1 +1,10 @@
-<p>button works!</p>
+<button
+    [attr.type]="type()"
+    [class]="buttonClass"
+    [disabled]="isDisabled"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-busy]="loading() ? 'true' : null"
+    (click)="onClick($event)"
+>
+    <ng-content></ng-content>
+</button>
