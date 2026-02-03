@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Injector, computed, effect, forwardRef, inject, input, runInInjectionContext, signal } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, Validators, ValidationErrors } from '@angular/forms';
-import { CHECKBOX_GROUP, type CheckboxGroupApi } from '../checkbox-group/checkbox-group.token';
+import { FORM_GROUP, type FormGroupApi } from '../form-group/form-group.token';
 
 @Component({
     selector: 'ui-checkbox',
@@ -26,7 +26,7 @@ export class CheckboxComponent implements ControlValueAccessor, AfterViewInit {
 
     private injector = inject(Injector);
 
-    private checkboxGroup: CheckboxGroupApi | null = inject(CHECKBOX_GROUP, { optional: true });
+    private checkboxGroup: FormGroupApi | null = inject(FORM_GROUP, { optional: true });
 
     private valueSignal = signal<boolean>(false);
     private disabledSignal = signal(false);
