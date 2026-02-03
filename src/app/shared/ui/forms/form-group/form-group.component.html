@@ -2,6 +2,7 @@
     class="form-control"
     [class.form-control--checkbox-group]="type() === 'checkbox'"
     [class.form-control--radio-group]="type() === 'radio'"
+    [class.form-control--group]="type() === 'generic'"
 >
     @if (label()) {
         <div class="form-control__label">

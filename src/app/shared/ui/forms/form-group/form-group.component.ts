@@ -24,7 +24,7 @@ type FormGroupType = 'checkbox' | 'radio' | 'generic';
 export class FormGroupComponent implements ControlValueAccessor, AfterViewInit, FormGroupApi {
     label = input<string>('');
     name = input<string>('');
-    type = input<FormGroupType>('checkbox');
+    type = input<FormGroupType>('generic');
 
     required = input<boolean>(false);
 
