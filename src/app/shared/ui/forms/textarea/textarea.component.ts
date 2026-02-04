@@ -150,8 +150,7 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
 
         return errorKeys.map((errorKey) => {
             const errorValue = (validationErrors as any)[errorKey];
-            const messageTemplate =
-                configuredMessages[errorKey] ?? this.fallbackMessage(errorKey, errorValue);
+            const messageTemplate = configuredMessages[errorKey] ?? this.fallbackMessage(errorKey, errorValue);
 
             return this.interpolate(messageTemplate, errorValue);
         });

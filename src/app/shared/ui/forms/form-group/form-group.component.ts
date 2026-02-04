@@ -1,27 +1,30 @@
 import { AfterViewInit, Component, Injector, effect, forwardRef, inject, input, runInInjectionContext, signal } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { CHECKBOX_GROUP, CheckboxGroupApi } from './checkbox-group.token';
+import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, ValidatorFn, Validators, ValidationErrors } from '@angular/forms';
+import { FORM_GROUP, type FormGroupApi } from './form-group.token';
+
+type FormGroupType = 'checkbox' | 'radio' | 'generic';
 
 @Component({
-    selector: 'ui-checkbox-group',
-    templateUrl: './checkbox-group.component.html',
-    styleUrl: './checkbox-group.component.scss',
+    selector: 'ui-form-group',
+    templateUrl: './form-group.component.html',
+    styleUrl: './form-group.component.scss',
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => CheckboxGroupComponent),
+            useExisting: forwardRef(() => FormGroupComponent),
             multi: true,
         },
         {
-            provide: CHECKBOX_GROUP,
-            useExisting: forwardRef(() => CheckboxGroupComponent),
+            provide: FORM_GROUP,
+            useExisting: forwardRef(() => FormGroupComponent),
         },
     ],
 })
 
-export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewInit, CheckboxGroupApi {
-    label = input.required<string>();
-    name = input.required<string>();
+export class FormGroupComponent implements ControlValueAccessor, AfterViewInit, FormGroupApi {
+    label = input<string>('');
+    name = input<string>('');
+    type = input<FormGroupType>('generic');
 
     required = input<boolean>(false);
 
@@ -33,6 +36,7 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
     private injector = inject(Injector);
 
     private selectedValuesSignal = signal<string[]>([]);
+    private selectedValueSignal = signal<string>('');
     private disabledSignal = signal(false);
 
     isReadySignal = signal(false);
@@ -42,21 +46,31 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
 
     private managedValidators: ValidatorFn[] = [];
 
-    private onChange: (value: string[]) => void = () => { };
+    private onChange: (value: string[] | string) => void = () => { };
     private onTouched: () => void = () => { };
 
-    private readonly uid = `ui-checkbox-group-${Math.random().toString(36).slice(2, 9)}`;
+    private readonly uid = `ui-form-group-${Math.random().toString(36).slice(2, 9)}`;
 
     ngAfterViewInit(): void {
         this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
+
+        if (this.ngControl) {
+            this.ngControl.valueAccessor = this;
+        }
+
         this.controlRef = this.ngControl?.control ?? null;
 
         if (!this.controlRef) {
+            queueMicrotask(() => {
+                this.isReadySignal.set(true);
+            });
+
             return;
         }
 
         runInInjectionContext(this.injector, () => {
             effect(() => {
+                this.type();
                 this.required();
                 this.minSelected();
                 this.maxSelected();
@@ -99,19 +113,26 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
     }
 
     isChecked(optionValue: string): boolean {
+        if (this.type() !== 'checkbox') {
+            return false;
+        }
+
         const selectedValues = this.selectedValuesSignal();
 
         return selectedValues.includes(optionValue);
     }
 
     setChecked(optionValue: string, isChecked: boolean): void {
+        if (this.type() !== 'checkbox') {
+            return;
+        }
+
         const selectedValues = this.selectedValuesSignal();
         const selectedValuesSet = new Set<string>(selectedValues);
 
         if (isChecked) {
             selectedValuesSet.add(optionValue);
-        }
-        else {
+        } else {
             selectedValuesSet.delete(optionValue);
         }
 
@@ -119,6 +140,25 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
 
         this.selectedValuesSignal.set(nextValues);
         this.onChange(nextValues);
+        this.onTouched();
+    }
+
+    getSelectedValue(): string {
+        if (this.type() !== 'radio') {
+            return '';
+        }
+
+        return this.selectedValueSignal();
+    }
+
+    setSelectedValue(nextValue: string): void {
+        if (this.type() !== 'radio') {
+            return;
+        }
+
+        this.selectedValueSignal.set(nextValue);
+        this.onChange(nextValue);
+        this.onTouched();
     }
 
     notifyTouched(): void {
@@ -140,6 +180,7 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
     }
 
     private readonly defaultMessages: Record<string, (errorData: any) => string> = {
+        required: () => 'Please select one option.',
         minSelected: (errorData) => `Please select at least ${errorData.required} option(s).`,
         maxSelected: (errorData) => `Please select at most ${errorData.required} option(s).`,
     };
@@ -179,8 +220,7 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
             return [];
         }
 
-        const validationErrors =
-            (this.ngControl?.control?.errors as ValidationErrors | null) ?? null;
+        const validationErrors = (this.ngControl?.control?.errors as ValidationErrors | null) ?? null;
 
         if (!validationErrors) {
             return [];
@@ -195,8 +235,7 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
 
         return errorKeys.map((errorKey) => {
             const errorValue = (validationErrors as any)[errorKey];
-            const messageTemplate =
-                configuredMessages[errorKey] ?? this.fallbackMessage(errorKey, errorValue);
+            const messageTemplate = configuredMessages[errorKey] ?? this.fallbackMessage(errorKey, errorValue);
 
             return this.interpolate(messageTemplate, errorValue);
         });
@@ -208,26 +247,34 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
         }
 
         const nextValidators: ValidatorFn[] = [];
+        const configuredType = this.type();
 
-        const configuredMinSelected = this.minSelected();
-        const configuredMaxSelected = this.maxSelected();
+        if (configuredType === 'checkbox') {
+            const configuredMinSelected = this.minSelected();
+            const configuredMaxSelected = this.maxSelected();
 
-        let effectiveMinSelected: number | null = configuredMinSelected;
+            let effectiveMinSelected: number | null = configuredMinSelected;
 
-        if (this.required()) {
-            if (effectiveMinSelected === null) {
-                effectiveMinSelected = 1;
-            } else {
-                effectiveMinSelected = Math.max(1, effectiveMinSelected);
+            if (this.required()) {
+                if (effectiveMinSelected === null) {
+                    effectiveMinSelected = 1;
+                } else {
+                    effectiveMinSelected = Math.max(1, effectiveMinSelected);
+                }
             }
-        }
 
-        if (effectiveMinSelected !== null) {
-            nextValidators.push(this.minSelectedValidator(effectiveMinSelected));
-        }
+            if (effectiveMinSelected !== null) {
+                nextValidators.push(this.minSelectedValidator(effectiveMinSelected));
+            }
 
-        if (configuredMaxSelected !== null) {
-            nextValidators.push(this.maxSelectedValidator(configuredMaxSelected));
+            if (configuredMaxSelected !== null) {
+                nextValidators.push(this.maxSelectedValidator(configuredMaxSelected));
+            }
+
+        } else if (configuredType === 'radio') {
+            if (this.required()) {
+                nextValidators.push(Validators.required);
+            }
         }
 
         control.addValidators(nextValidators);
@@ -274,13 +321,30 @@ export class CheckboxGroupComponent implements ControlValueAccessor, AfterViewIn
         };
     }
 
-    writeValue(value: string[] | null): void {
-        const nextValues = Array.isArray(value) ? value : [];
+    writeValue(value: string[] | string | null): void {
+        const configuredType = this.type();
 
-        this.selectedValuesSignal.set(nextValues);
+        if (configuredType === 'checkbox') {
+            const nextValues = Array.isArray(value) ? value : [];
+            this.selectedValuesSignal.set(nextValues);
+
+            return;
+        }
+
+        if (configuredType === 'radio') {
+            this.selectedValueSignal.set(typeof value === 'string' ? value : '');
+
+            return;
+        }
+
+        if (Array.isArray(value)) {
+            this.selectedValuesSignal.set(value);
+        } else {
+            this.selectedValueSignal.set(typeof value === 'string' ? value : '');
+        }
     }
 
-    registerOnChange(changeHandler: (value: string[]) => void): void {
+    registerOnChange(changeHandler: (value: string[] | string) => void): void {
         this.onChange = changeHandler;
     }
 

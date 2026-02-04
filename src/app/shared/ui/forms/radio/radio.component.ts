@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { RADIO_GROUP, RadioGroupApi } from '../radio-group/radio-group.token';
+import { FORM_GROUP, FormGroupApi } from '../form-group/form-group.token';
 
 @Component({
     selector: 'ui-radio',
@@ -13,7 +13,7 @@ export class RadioComponent {
     name = input<string>('');
     value = input.required<string>();
 
-    private radioGroup: RadioGroupApi | null = inject(RADIO_GROUP, { optional: true });
+    private radioGroup: FormGroupApi | null = inject(FORM_GROUP, { optional: true });
 
     isReadySignal = signal(true);
 

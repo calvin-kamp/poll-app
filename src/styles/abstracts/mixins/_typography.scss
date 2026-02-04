@@ -18,7 +18,7 @@
     white-space: nowrap;
 }
 
-@mixin line-clamp($lines: 2) {
+@mixin max-lines($lines: 2) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: $lines;

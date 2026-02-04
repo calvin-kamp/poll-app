@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export interface CheckboxGroupApi {
+export interface FormGroupApi {
     getGroupName(): string;
 
     isDisabled(): boolean;
@@ -11,7 +11,10 @@ export interface CheckboxGroupApi {
     isChecked(optionValue: string): boolean;
     setChecked(optionValue: string, isChecked: boolean): void;
 
+    getSelectedValue(): string;
+    setSelectedValue(nextValue: string): void;
+
     notifyTouched(): void;
 }
 
-export const CHECKBOX_GROUP = new InjectionToken<CheckboxGroupApi>('CHECKBOX_GROUP');
+export const FORM_GROUP = new InjectionToken<FormGroupApi>('FORM_GROUP');
